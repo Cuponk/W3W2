@@ -4,6 +4,8 @@ class Board
         @populate = []
         @player = Player.new
         @ai = AI.new
+        @first_move = @player.get_move1
+        @second_move = @player.get_move2
     end 
 
     def [](pos)
@@ -15,9 +17,18 @@ class Board
     end
 
     def populate
-        row = rand(0...@board.length)
-        col = rand(0...@board.length)
-        @populate = 
+            i = 0
+            while i < 8
+                row = rand(0...@board.length)
+                col = rand(0...@board.length)
+                row2 = rand(0...@board.length)
+                col2 = rand(0...@board.length)
+                if @board[row][col].empty?  && @board[row2][col2].empty?
+                    @board[row][col] = Card.cards[i]
+                    @board[row2][col2] = Card.cards[i]
+                end
+            end            
+        
     end
 
     def render
@@ -27,7 +38,7 @@ class Board
     end
 
     def won?
-        return true if 
+        return true if @board[@first_move] == @board[@second_move]
     end
 
     def reveal(pos)
