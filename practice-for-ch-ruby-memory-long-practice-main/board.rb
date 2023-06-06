@@ -1,7 +1,28 @@
+require_relative "player"
+require_relative "ai"
+
 class Board
+
+    def self.populated(board)
+        cards = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+            i = 0
+            while i < 8
+                row = rand(0...4)
+                col = rand(0...4)
+                row2 = rand(0...4)
+                col2 = rand(0...4)
+                if board[row][col] == nil  && board[row2][col2] == nil
+                    board[row][col] = cards[i]
+                    board[row2][col2] = cards[i]
+                    i += 1
+                end
+            end 
+            board         
+        
+    end
+
     def initialize
-        @board = Array.new(4) {Array.new(4)}
-        @populate = []
+        @board = Board.populated(Array.new(4) {Array.new(4)})
         @player = Player.new
         @ai = AI.new
         @first_move = @player.get_move1
@@ -15,21 +36,6 @@ class Board
 
     def []=(pos, val)
         @board[pos[0]][pos[1]] = val
-    end
-
-    def populate
-            i = 0
-            while i < 8
-                row = rand(0...@board.length)
-                col = rand(0...@board.length)
-                row2 = rand(0...@board.length)
-                col2 = rand(0...@board.length)
-                if @board[row][col].empty?  && @board[row2][col2].empty?
-                    @board[row][col] = Card.cards[i]
-                    @board[row2][col2] = Card.cards[i]
-                end
-            end            
-        
     end
 
     def render
@@ -52,12 +58,14 @@ class Board
 
     def reveal(pos)
         if !already_chosen(pos)
-            self.[pos]
+        show_pos_board = @hide.map{|ele| ele}
+        show_pos_board[pos[0]][pos[1]] = @hide[pos]
+        show_pos_board
         end
     end
 
     def already_chosen(pos)
-        Card.hide.empty?(pos)
+        @hide.empty?(pos)
     end
 
 end
