@@ -6,6 +6,7 @@ class Board
         @ai = AI.new
         @first_move = @player.get_move1
         @second_move = @player.get_move2
+        @hide = Array.new(4) {Array.new(4)}
     end 
 
     def [](pos)
@@ -32,19 +33,31 @@ class Board
     end
 
     def render
-        @board.each do |row|
+        @hide.each do |row|
             puts row
         end
     end
 
+    def little_won?
+       if @board[@first_move] == @board[@second_move]
+        @hide[@first_move] += @board[@first_move]
+        @hide[@second_move] += @board[@second_move]
+        return true 
+       end
+    end
+
     def won?
-        return true if @board[@first_move] == @board[@second_move]
+        !@hide.empty?        
     end
 
     def reveal(pos)
-        if !already_chosen || !already_shown
+        if !already_chosen(pos)
             self.[pos]
         end
+    end
+
+    def already_chosen(pos)
+        Card.hide.empty?(pos)
     end
 
 end
