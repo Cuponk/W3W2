@@ -31,8 +31,8 @@ class Board
     end
 
     def reveal(pos)
-        if self[pos] ==
-
+        if !already_chosen || !already_shown
+            self.[pos]
         end
     end
 
