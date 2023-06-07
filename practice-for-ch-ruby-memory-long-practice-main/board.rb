@@ -1,32 +1,15 @@
 require_relative "player"
 require_relative "ai"
-
+require_relative "card"
 class Board
 
-    def self.populated(board)
-        cards = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-            i = 0
-            while i < 8
-                row = rand(0...4)
-                col = rand(0...4)
-                row2 = rand(0...4)
-                col2 = rand(0...4)
-                if board[row][col] == nil  && board[row2][col2] == nil
-                    board[row][col] = cards[i]
-                    board[row2][col2] = cards[i]
-                    i += 1
-                end
-            end 
-            board         
-        
-    end
+    
 
     def initialize
-        @board = Board.populated(Array.new(4) {Array.new(4)})
+        @board = Array.new(4) {Array.new(4, Card.new)}
         @player = Player.new
         @ai = AI.new
-        @first_move = @player.get_move1
-        @second_move = @player.get_move2
+        @move = @player.get_move
         @hide = Array.new(4) {Array.new(4)}
     end 
 
